@@ -10,7 +10,7 @@ const port = process.env.PORT || 8085;
 const cliport = process.env.CLI_PORT || 8083;
 var websocket_stream_port = process.env.WS_STREAM_PORT || 8084;
 const video_route = process.env.VIDEO_ROUTE || "localhost";
-const video_uri = "ws://" + video_route + ":" + websocket_stream_port;
+const video_uri = "ws://" + video_route;
 const socket_manager = process.env.SOCKET_MANAGER_SVC || "localhost";
 const ioclient = new socketcli.connect("http://" + socket_manager + ":" + cliport, {
   reconnection: true,
