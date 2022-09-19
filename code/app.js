@@ -45,13 +45,11 @@ io.on('connection', (socket) => {
     if (socket.username) {
       updateusrlist("del", socket.username);
     }
-    console.log('user disconnected');
   });
   socket.on('validateusr',(usr) => {
 
     console.log('user ' + usr + ' connected');
     const newuser = playlist.find(user => user == usr);
-    console.log("newuser: " + newuser);
     if ((/^[a-zA-Z0-9]+$/.test(usr)) && (!newuser)){
       console.log("user valid: " + usr);
       socketlist[usr] = socket;
