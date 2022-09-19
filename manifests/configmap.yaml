@@ -5,7 +5,7 @@ metadata:
   namespace: dc-front
 data:
   PORT: '8080'
-  CLI_PORT: '8080'
+  CLI_PORT: '8081'
   WS_STREAM_PORT: '8081'
   SOCKET_MANAGER_SVC: 'dc-socket-manager.dc-socket-manager.svc.cluster.local'
   VIDEO_ROUTE: 'localhost'
