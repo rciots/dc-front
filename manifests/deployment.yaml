@@ -1,0 +1,68 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dc-front
+  namespace: dc-front
+  labels:
+    app: dc-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dc-front
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dc-front
+    spec:
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      securityContext: {}
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: dc-front
+          env:        
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: dc-front
+                  key: PORT
+            - name: CLI_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: dc-front
+                  key: CLI_PORT
+            - name: WS_STREAM_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: dc-front
+                  key: WS_STREAM_PORT
+            - name: SOCKET_MANAGER_SVC
+              valueFrom:
+                configMapKeyRef:
+                  name: dc-front
+                  key: SOCKET_MANAGER_SVC
+            - name: VIDEO_ROUTE
+              valueFrom:
+                configMapKeyRef:
+                  name: dc-front
+                  key: VIDEO_ROUTE
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          securityContext: {}
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          image: >-
+            quay.io/rciots/dc-front:latest
+      dnsPolicy: ClusterFirst
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
