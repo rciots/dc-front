@@ -2,9 +2,6 @@ var socket = io();
 var host_name = document.location.hostname;
 var countdownInterval;
 console.log("connecting to host: ", host_name);
-var mycanvas = document.getElementById("video-canvas");
-    var player = new JSMpeg.Player("ws://" + host_name + ":8084", {canvas: mycanvas});
-    //Connect to the server via websocket
 socket.on("video_uri", (uri) => {
     console.log("video_uri: " + uri);
     var mycanvas = document.getElementById("video-canvas");
