@@ -35,7 +35,7 @@ socket.on("currentplayer", (data) => {
 socket.on("valid_user", (data) => {
     if (data.valid === false){
         alert(data.reason);
-        document.getElementById("usernamecard").usernamecard.style.display = "";
+        document.getElementById("usernamecard").usernamecard.style.visibility = "visible";
     }
 })
 
@@ -48,7 +48,7 @@ function toggledisplay() {
         window.alert("too short username");
     } else {
         console.log("username: " + username);
-        usernamecard.style.display = "none";
+        usernamecard.style.visibility = "hidden";
         socket.emit('validateusr', username);
     }
 
@@ -63,13 +63,20 @@ document.addEventListener('keydown', (event) => {
         if (code === "Space"){
             currentplayer = false;
             clearInterval(countdownInterval);
-            document.getElementById("countdown").style.display = "none";
-            setTimeout(() => {
-                document.getElementById("usernamecard").style.display = "";
-            }, 7000);
+            launchClaw();
         }
     }
 }, false);
+
+function launchClaw(){
+    socket.emit("control", "Space");
+    currentplayer = false;
+    document.getElementById("launch").disabled = true;
+    document.getElementById("countdown").style.visibility = "hidden";
+    setTimeout(() => {
+        document.getElementById("usernamecard").style.visibility = "visible";
+    }, 7000);
+}
 
 function startcountdown() {
     console.log("startcountdown");
@@ -77,25 +84,46 @@ function startcountdown() {
     document.getElementById("countdown").style.left= "45%";
     document.getElementById("countdown").style.top= "20%";
     document.getElementById("countdown").innerHTML = "Ready...";
-    document.getElementById("countdown").style.display = "block";
+    document.getElementById("countdown").style.visibility = "visible";
     var initial = true;
+    var played = false;
+        var joystickCatch = setInterval(function(){ 
+            
+            if (currentplayer == true) {
+                played = true;
+                var direction=joy.GetDir();
+                if (["N","NW","NE"].includes(direction)) {
+                    socket.emit("control", "ArrowUp");
+                    console.log("Up");
+                } else if (["S","SW","SE"].includes(direction)) {
+                    socket.emit("control", "ArrowDown");
+                    console.log("Down");
+                }
+                if (["E","NE","SE"].includes(direction)) {
+                    socket.emit("control", "ArrowRight");
+                    console.log("Right");
+                } else if (["W","NW","SW"].includes(direction)) {
+                    socket.emit("control", "ArrowLeft");
+                    console.log("Left");
+                }
+            } else if ((currentplayer ==false ) && (played == true)) {
+                clearInterval(joystickCatch);
+            }
+        }, 20);
     countdownInterval = setInterval(function() {
         console.log("countdown: " + countdown);
         if ((countdown === -1) && (initial === true)) {
             currentplayer = true;
             countdown -= 1;
             document.getElementById("countdown").innerHTML = "GO!";
+            document.getElementById("launch").disabled = false;
         }else if ((countdown < -1) && (initial === true)) {
             countdown = 18;
             initial = false;
             document.getElementById("countdown").innerHTML = "GO!";
         } else if ((countdown < 0) && (initial === false)) {
-            currentplayer = false;
             clearInterval(countdownInterval);
-            document.getElementById("countdown").style.display = "none";
-            setTimeout(() => {
-                document.getElementById("usernamecard").style.display = "";
-            }, 7000);
+            launchClaw();
             
         } else  if (initial === true){
 
@@ -109,3 +137,4 @@ function startcountdown() {
         }
     }, 1000);
 }
+var joy = new JoyStick('joyDiv');

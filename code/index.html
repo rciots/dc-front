@@ -7,6 +7,7 @@
     <link rel='stylesheet' href='/stylesheets/custom.css' />
   </head>
   <body>
+    
     <div class='container-fluid'>
       <nav class='navbar navbar-expand-md navbar-light border-bottom border-primary mt-3'>
         <div class='container-fluid'>
@@ -49,6 +50,7 @@
         <!-- add div 720x480 -->
         <div class='row'>
           <div class='col-12'>
+            <div id="joyDiv" ><button id="launch" onclick="launchClaw()" disabled>Launch!</button></div>
             <div class='card'>
               <div class='card-header'>
                 <h3 class='card-title'>
@@ -57,7 +59,7 @@
                   </strong>
                 </h3>
                 <div class='card-body' >
-                  <div class="input-group w-75 mx-auto" id="usernamecard">
+                  <div class="input-group w-25 mx-auto" id="usernamecard">
                     <input style="width:10%;" id="username" type="text" class="form-control input-sm" placeholder="username" aria-label="username" aria-describedby="basic-addon2" onkeypress="return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode >= 48 && event.charCode <= 57));">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" type="button" onclick="toggledisplay()">Join!</button>
@@ -67,6 +69,7 @@
                   <div class="container">
                     <div id="videocontainer" class="row">
                       <canvas id="video-canvas" width=640 height=360></canvas>
+
                       <div id="countdown" class="col-sm-2 rounded border border-danger"></div>
                       <div id="overlay" class="col-2">
                         <table class="table">
@@ -94,6 +97,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src='/javascripts/bootstrap.bundle.min.js'></script>
     <script src='/javascripts/jsmpeg.min.js'></script>
+    <script src="/javascripts/joy.js"></script>
     <script src='/javascripts/custom.js'></script>
   </body>
 </html>
