@@ -1,6 +1,16 @@
 var socket = io();
 var host_name = document.location.hostname;
 var countdownInterval;
+if (navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i) 
+                || navigator.userAgent.match(/iPad/i) 
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i)) {
+                document.getElementById("joyDiv").style.top = "82%";
+            } else {
+}
 console.log("connecting to host: ", host_name);
 socket.on("video_uri", (uri) => {
     console.log("video_uri: " + uri);
@@ -77,6 +87,7 @@ function launchClaw(){
         document.getElementById("usernamecard").style.visibility = "visible";
     }, 7000);
 }
+
 
 function startcountdown() {
     console.log("startcountdown");
