@@ -7,6 +7,7 @@ RUN npm install
 COPY . /app
 RUN dnf upgrade -y
 RUN dnf clean all
+RUN npm cache clean --force 
 USER 1001
 EXPOSE 8080
 CMD npm start
