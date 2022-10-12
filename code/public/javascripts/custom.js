@@ -71,14 +71,14 @@ document.addEventListener('keydown', (event) => {
     if ((currentplayer) &&(validkeys.indexOf(code) > -1 )) {
         socket.emit("control", code);
         if (code === "Space"){
-            currentplayer = false;
-            clearInterval(countdownInterval);
             launchClaw();
         }
     }
 }, false);
 
 function launchClaw(){
+    currentplayer = false;
+    clearInterval(countdownInterval);
     socket.emit("control", "Space");
     currentplayer = false;
     document.getElementById("launch").disabled = true;
@@ -133,7 +133,6 @@ function startcountdown() {
             initial = false;
             document.getElementById("countdown").innerHTML = "GO!";
         } else if ((countdown < 0) && (initial === false)) {
-            clearInterval(countdownInterval);
             launchClaw();
             
         } else  if (initial === true){
