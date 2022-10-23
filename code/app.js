@@ -36,12 +36,16 @@ var socketlist = {};
 var currentplayer;
 app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection', (socket) => {
+  socketcli.emit("user_on", true);
   console.log('a user connected');
   socket.emit("video_uri", video_uri );
   socket.emit("playlist", playlist);
   //socket.emit("playlist",playlist);
   socket.on('disconnect', () => {
     console.log("username disconnected: " + socket.username);
+    if (!io.engine.clientsCount > 0) {
+      socketcli.emit("user_on", false);
+    }
     if (socket.username) {
       updateusrlist("del", socket.username);
     }
