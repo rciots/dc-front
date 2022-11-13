@@ -1,8 +1,9 @@
 FROM registry.access.redhat.com/ubi9/nodejs-16:latest
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 COPY package.json /app
 RUN npm install
-COPY . /app
+COPY . /usr/src/app
 RUN dnf upgrade -y
 RUN dnf clean all
 RUN npm cache clean --force
