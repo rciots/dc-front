@@ -1,13 +1,14 @@
 FROM registry.access.redhat.com/ubi9/nodejs-16:latest
 USER root
-
-COPY package*.json ./
-RUN npm install -g npm@9.1.1
+WORKDIR /app
+COPY package.json /app
 RUN npm install
-COPY . /opt/app-root/src
-RUN npm cache clean --force
-RUN chown -R 1000680000:0 /opt/app-root/src
-RUN rm -rf /opt/app-root/src/.npm
-USER 1000680000
+COPY . /app
+RUN dnf upgrade -y
+RUN dnf clean all
+RUN npm cache clean --force 
+RUN chown -R 1001:0 /app
+RUN rm -rf /app/.npm
+USER 1001
 EXPOSE 8080
 CMD npm start
