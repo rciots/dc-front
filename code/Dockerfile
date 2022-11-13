@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9/nodejs-16:latest
 USER root
-RUN chown -R 1001:0 /app
+RUN chown -R 1001:0 /opt/app-root/src
 COPY package*.json ./
 RUN npm install -g npm@9.1.1
 RUN npm install
