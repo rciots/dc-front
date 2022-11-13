@@ -7,6 +7,7 @@ RUN npm install
 COPY . /opt/app-root/src
 RUN npm cache clean --force
 RUN chown -R 1000680000:0 /opt/app-root/src
+RUN rm -rf /opt/app-root/src/.npm
 USER 1000680000
 EXPOSE 8080
 CMD npm start
