@@ -61,10 +61,10 @@ io.on('connection', (socket) => {
       updateusrlist("add", usr);
 
       socket.emit("valid_user", {"valid": true, "username": usr});
-      socket.on('control',(key) => {
+      socket.on('control',(key, act) => {
         if (currentplayer === usr){
           console.log(usr + " send: " + key);
-          ioclient.emit("control", key);
+          ioclient.emit("control", key, act);
           if (key === "Space"){
             currentplayer = null;
             socket.emit('endgame', true);

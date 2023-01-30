@@ -11,4 +11,4 @@ RUN chown -R 1001:0 /app
 RUN rm -rf /app/.npm
 USER 1001
 EXPOSE 8080
-CMD npm start
+CMD [ "sh", "-c", "node app.js" ]

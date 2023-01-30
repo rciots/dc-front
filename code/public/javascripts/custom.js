@@ -1,6 +1,7 @@
 var socket = io();
 var host_name = document.location.hostname;
 var countdownInterval;
+var validkeys = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Space"];
 if (navigator.userAgent.match(/Android/i)
                 || navigator.userAgent.match(/webOS/i)
                 || navigator.userAgent.match(/iPhone/i) 
@@ -64,22 +65,27 @@ function toggledisplay() {
 
   }
 document.addEventListener('keydown', (event) => {
-    var name = event.key;
-    var code = event.code;
-    validkeys = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Space"]
-    
+    var code = event.code;    
     if ((currentplayer) &&(validkeys.indexOf(code) > -1 )) {
-        socket.emit("control", code);
+        socket.emit("control", code, "down");
         if (code === "Space"){
             launchClaw();
         }
     }
 }, false);
 
+document.addEventListener('keyup', (event) => {
+    var code = event.code;
+    
+    if ((currentplayer) &&(validkeys.indexOf(code) > -1 )) {
+        socket.emit("control", code, "up");
+    }
+}, false);
+
 function launchClaw(){
     currentplayer = false;
     clearInterval(countdownInterval);
-    socket.emit("control", "Space");
+    socket.emit("control", "Space", "down");
     currentplayer = false;
     document.getElementById("launch").disabled = true;
     document.getElementById("countdown").style.visibility = "hidden";
